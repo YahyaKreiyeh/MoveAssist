@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "101844932041",
+    "project_id": "moveassist-51ca5",
+    "storage_bucket": "moveassist-51ca5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101844932041:android:308e3fde6d531403788418",
+        "android_client_info": {
+          "package_name": "com.example.moveassist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeyrmTZEgQrq3lqAgo5ArPxViz7pkyR-U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
