@@ -29,7 +29,7 @@ class MoveAssist extends StatelessWidget {
             scaffoldBackgroundColor: ColorsManager.scaffoldBackground,
           ),
           debugShowCheckedModeBanner: false,
-          initialRoute: Routes.navigationScreen,
+          initialRoute: Routes.loginScreen,
           onGenerateRoute: appRouter.generateRoute,
         );
       },
