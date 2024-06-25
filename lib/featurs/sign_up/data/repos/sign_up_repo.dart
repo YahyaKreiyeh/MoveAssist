@@ -24,14 +24,23 @@ class SignupRepo {
           ?.updateProfile(displayName: signupRequestBody.name);
       await userCredential.user?.reload();
 
+      // Fetch the updated user details
+      User? user = _firebaseAuth.currentUser;
+      if (user == null) {
+        throw FirebaseAuthException(
+          code: 'ERROR_USER_NOT_FOUND',
+          message: 'User not found after signup',
+        );
+      }
+
       SignupResponse signupResponse = SignupResponse(
         message: "User registered successfully",
         status: true,
         code: 200,
         userData: UserData(
-          token: await userCredential.user?.getIdToken(),
-          userName: userCredential.user?.displayName,
-          userId: userCredential.user?.uid,
+          token: await user.getIdToken(),
+          userName: user.displayName,
+          userId: user.uid,
         ),
       );
 
