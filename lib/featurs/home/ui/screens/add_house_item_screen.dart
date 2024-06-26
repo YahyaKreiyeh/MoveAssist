@@ -3,10 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:moveassist/featurs/home/logic/house_item_cubit.dart';
+import 'package:moveassist/core/helpers/extensions.dart';
+import 'package:moveassist/featurs/home/data/models/moving_schedule.dart';
+import 'package:moveassist/featurs/home/logic/moving_schedule_cubit.dart';
 
 class AddHouseItemScreen extends StatefulWidget {
-  const AddHouseItemScreen({super.key});
+  final HouseItem? item;
+
+  const AddHouseItemScreen({super.key, this.item});
 
   @override
   AddHouseItemScreenState createState() => AddHouseItemScreenState();
@@ -15,8 +19,20 @@ class AddHouseItemScreen extends StatefulWidget {
 class AddHouseItemScreenState extends State<AddHouseItemScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  final _quantityController = TextEditingController();
   final _descriptionController = TextEditingController();
   XFile? _image;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.item != null) {
+      _nameController.text = widget.item!.name;
+      _quantityController.text = widget.item!.quantity.toString();
+      _descriptionController.text = widget.item!.description;
+      _image = XFile(widget.item!.imageUrl);
+    }
+  }
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
@@ -29,7 +45,7 @@ class AddHouseItemScreenState extends State<AddHouseItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add House Item'),
+        title: Text(widget.item == null ? 'Add House Item' : 'Edit House Item'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -44,6 +60,17 @@ class AddHouseItemScreenState extends State<AddHouseItemScreen> {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter item name';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _quantityController,
+                  decoration: const InputDecoration(labelText: 'Item Quantity'),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter item quantity';
                     }
                     return null;
                   },
@@ -74,23 +101,23 @@ class AddHouseItemScreenState extends State<AddHouseItemScreen> {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () async {
+                  onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {
-                      if (_image != null) {
-                        await context.read<HouseItemCubit>().addHouseItem(
-                              _nameController.text,
-                              _descriptionController.text,
-                              _image!,
-                            );
-                        // Navigator.pop(context);
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Please pick an image')),
-                        );
-                      }
+                      final item = HouseItem(
+                        id: widget.item?.id ??
+                            DateTime.now().millisecondsSinceEpoch.toString(),
+                        name: _nameController.text,
+                        quantity: int.parse(_quantityController.text),
+                        description: _descriptionController.text,
+                        imageUrl: _image?.path ?? '',
+                      );
+                      context
+                          .read<MovingScheduleCubit>()
+                          .addOrUpdateHouseItem(item);
+                      context.pop();
                     }
                   },
-                  child: const Text('Add Item'),
+                  child: const Text('Save Item'),
                 ),
               ],
             ),

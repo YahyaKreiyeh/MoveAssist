@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'house_item_state.dart';
+part of 'home_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,12 +15,12 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$HouseItemState {
+mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<HouseItem> houseItems) success,
+    required TResult Function(List<MovingSchedule> schedules) success,
     required TResult Function(String error) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$HouseItemState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<HouseItem> houseItems)? success,
+    TResult? Function(List<MovingSchedule> schedules)? success,
     TResult? Function(String error)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$HouseItemState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<HouseItem> houseItems)? success,
+    TResult Function(List<MovingSchedule> schedules)? success,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) =>
@@ -69,16 +69,15 @@ mixin _$HouseItemState {
 }
 
 /// @nodoc
-abstract class $HouseItemStateCopyWith<$Res> {
-  factory $HouseItemStateCopyWith(
-          HouseItemState value, $Res Function(HouseItemState) then) =
-      _$HouseItemStateCopyWithImpl<$Res, HouseItemState>;
+abstract class $HomeStateCopyWith<$Res> {
+  factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
+      _$HomeStateCopyWithImpl<$Res, HomeState>;
 }
 
 /// @nodoc
-class _$HouseItemStateCopyWithImpl<$Res, $Val extends HouseItemState>
-    implements $HouseItemStateCopyWith<$Res> {
-  _$HouseItemStateCopyWithImpl(this._value, this._then);
+class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
+    implements $HomeStateCopyWith<$Res> {
+  _$HomeStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -95,7 +94,7 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$HouseItemStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$HomeStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
@@ -109,7 +108,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'HouseItemState.initial()';
+    return 'HomeState.initial()';
   }
 
   @override
@@ -126,7 +125,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<HouseItem> houseItems) success,
+    required TResult Function(List<MovingSchedule> schedules) success,
     required TResult Function(String error) error,
   }) {
     return initial();
@@ -137,7 +136,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<HouseItem> houseItems)? success,
+    TResult? Function(List<MovingSchedule> schedules)? success,
     TResult? Function(String error)? error,
   }) {
     return initial?.call();
@@ -148,7 +147,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<HouseItem> houseItems)? success,
+    TResult Function(List<MovingSchedule> schedules)? success,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
@@ -196,7 +195,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements HouseItemState {
+abstract class _Initial implements HomeState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -209,7 +208,7 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$HouseItemStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$HomeStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
@@ -223,7 +222,7 @@ class _$LoadingImpl implements Loading {
 
   @override
   String toString() {
-    return 'HouseItemState.loading()';
+    return 'HomeState.loading()';
   }
 
   @override
@@ -240,7 +239,7 @@ class _$LoadingImpl implements Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<HouseItem> houseItems) success,
+    required TResult Function(List<MovingSchedule> schedules) success,
     required TResult Function(String error) error,
   }) {
     return loading();
@@ -251,7 +250,7 @@ class _$LoadingImpl implements Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<HouseItem> houseItems)? success,
+    TResult? Function(List<MovingSchedule> schedules)? success,
     TResult? Function(String error)? error,
   }) {
     return loading?.call();
@@ -262,7 +261,7 @@ class _$LoadingImpl implements Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<HouseItem> houseItems)? success,
+    TResult Function(List<MovingSchedule> schedules)? success,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
@@ -310,7 +309,7 @@ class _$LoadingImpl implements Loading {
   }
 }
 
-abstract class Loading implements HouseItemState {
+abstract class Loading implements HomeState {
   const factory Loading() = _$LoadingImpl;
 }
 
@@ -320,12 +319,12 @@ abstract class _$$SuccessImplCopyWith<$Res> {
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<HouseItem> houseItems});
+  $Res call({List<MovingSchedule> schedules});
 }
 
 /// @nodoc
 class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$HouseItemStateCopyWithImpl<$Res, _$SuccessImpl>
+    extends _$HomeStateCopyWithImpl<$Res, _$SuccessImpl>
     implements _$$SuccessImplCopyWith<$Res> {
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
@@ -334,13 +333,13 @@ class __$$SuccessImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? houseItems = null,
+    Object? schedules = null,
   }) {
     return _then(_$SuccessImpl(
-      null == houseItems
-          ? _value._houseItems
-          : houseItems // ignore: cast_nullable_to_non_nullable
-              as List<HouseItem>,
+      null == schedules
+          ? _value._schedules
+          : schedules // ignore: cast_nullable_to_non_nullable
+              as List<MovingSchedule>,
     ));
   }
 }
@@ -348,20 +347,20 @@ class __$$SuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SuccessImpl implements Success {
-  const _$SuccessImpl(final List<HouseItem> houseItems)
-      : _houseItems = houseItems;
+  const _$SuccessImpl(final List<MovingSchedule> schedules)
+      : _schedules = schedules;
 
-  final List<HouseItem> _houseItems;
+  final List<MovingSchedule> _schedules;
   @override
-  List<HouseItem> get houseItems {
-    if (_houseItems is EqualUnmodifiableListView) return _houseItems;
+  List<MovingSchedule> get schedules {
+    if (_schedules is EqualUnmodifiableListView) return _schedules;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_houseItems);
+    return EqualUnmodifiableListView(_schedules);
   }
 
   @override
   String toString() {
-    return 'HouseItemState.success(houseItems: $houseItems)';
+    return 'HomeState.success(schedules: $schedules)';
   }
 
   @override
@@ -370,12 +369,12 @@ class _$SuccessImpl implements Success {
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl &&
             const DeepCollectionEquality()
-                .equals(other._houseItems, _houseItems));
+                .equals(other._schedules, _schedules));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_houseItems));
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_schedules));
 
   @JsonKey(ignore: true)
   @override
@@ -388,10 +387,10 @@ class _$SuccessImpl implements Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<HouseItem> houseItems) success,
+    required TResult Function(List<MovingSchedule> schedules) success,
     required TResult Function(String error) error,
   }) {
-    return success(houseItems);
+    return success(schedules);
   }
 
   @override
@@ -399,10 +398,10 @@ class _$SuccessImpl implements Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<HouseItem> houseItems)? success,
+    TResult? Function(List<MovingSchedule> schedules)? success,
     TResult? Function(String error)? error,
   }) {
-    return success?.call(houseItems);
+    return success?.call(schedules);
   }
 
   @override
@@ -410,12 +409,12 @@ class _$SuccessImpl implements Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<HouseItem> houseItems)? success,
+    TResult Function(List<MovingSchedule> schedules)? success,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(houseItems);
+      return success(schedules);
     }
     return orElse();
   }
@@ -458,10 +457,10 @@ class _$SuccessImpl implements Success {
   }
 }
 
-abstract class Success implements HouseItemState {
-  const factory Success(final List<HouseItem> houseItems) = _$SuccessImpl;
+abstract class Success implements HomeState {
+  const factory Success(final List<MovingSchedule> schedules) = _$SuccessImpl;
 
-  List<HouseItem> get houseItems;
+  List<MovingSchedule> get schedules;
   @JsonKey(ignore: true)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -478,7 +477,7 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$HouseItemStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$HomeStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
@@ -508,7 +507,7 @@ class _$ErrorImpl implements Error {
 
   @override
   String toString() {
-    return 'HouseItemState.error(error: $error)';
+    return 'HomeState.error(error: $error)';
   }
 
   @override
@@ -533,7 +532,7 @@ class _$ErrorImpl implements Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<HouseItem> houseItems) success,
+    required TResult Function(List<MovingSchedule> schedules) success,
     required TResult Function(String error) error,
   }) {
     return error(this.error);
@@ -544,7 +543,7 @@ class _$ErrorImpl implements Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<HouseItem> houseItems)? success,
+    TResult? Function(List<MovingSchedule> schedules)? success,
     TResult? Function(String error)? error,
   }) {
     return error?.call(this.error);
@@ -555,7 +554,7 @@ class _$ErrorImpl implements Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<HouseItem> houseItems)? success,
+    TResult Function(List<MovingSchedule> schedules)? success,
     TResult Function(String error)? error,
     required TResult orElse(),
   }) {
@@ -603,7 +602,7 @@ class _$ErrorImpl implements Error {
   }
 }
 
-abstract class Error implements HouseItemState {
+abstract class Error implements HomeState {
   const factory Error({required final String error}) = _$ErrorImpl;
 
   String get error;

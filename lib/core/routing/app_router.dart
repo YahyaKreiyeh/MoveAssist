@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:moveassist/core/routing/routes.dart';
-import 'package:moveassist/featurs/home/data/repos/house_Item_repo.dart';
-import 'package:moveassist/featurs/home/logic/house_item_cubit.dart';
+import 'package:moveassist/featurs/home/data/models/moving_schedule.dart';
 import 'package:moveassist/featurs/home/ui/screens/add_house_item_screen.dart';
-import 'package:moveassist/featurs/home/ui/screens/house_items_screen.dart';
+import 'package:moveassist/featurs/home/ui/screens/home_screen.dart';
+import 'package:moveassist/featurs/home/ui/screens/moving_schedul_screen.dart';
 import 'package:moveassist/featurs/login/data/repos/login_repo.dart';
 import 'package:moveassist/featurs/login/logic/login_cubit.dart';
 import 'package:moveassist/featurs/login/ui/login_screen.dart';
@@ -32,18 +32,19 @@ class AppRouter {
             child: const LoginScreen(),
           ),
         );
-      case Routes.houseItemsScreen:
+      case Routes.homeScreen:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => HouseItemCubit(getIt<HouseItemRepo>()),
-            child: const HouseItemsScreen(),
-          ),
+          builder: (_) => const HomeScreen(),
         );
-      case Routes.addHouseItemsScreen:
+      case Routes.movingScheduleScreen:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => HouseItemCubit(getIt<HouseItemRepo>()),
-            child: const AddHouseItemScreen(),
+          builder: (_) => const MovingScheduleScreen(),
+        );
+      case Routes.addHouseItemScreen:
+        final item = settings.arguments as HouseItem?;
+        return MaterialPageRoute(
+          builder: (_) => AddHouseItemScreen(
+            item: item,
           ),
         );
       default:
