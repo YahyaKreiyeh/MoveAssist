@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moveassist/core/routing/app_router.dart';
@@ -29,10 +30,19 @@ class MoveAssist extends StatelessWidget {
             scaffoldBackgroundColor: ColorsManager.scaffoldBackground,
           ),
           debugShowCheckedModeBanner: false,
-          initialRoute: Routes.loginScreen,
+          initialRoute: getInitialRoute(),
           onGenerateRoute: appRouter.generateRoute,
         );
       },
     );
+  }
+
+  String getInitialRoute() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return Routes.houseItemsScreen;
+    } else {
+      return Routes.loginScreen;
+    }
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moveassist/core/utils/constants/styles.dart';
 import 'package:moveassist/core/widgets/buttons/app_text_button.dart';
-import 'package:moveassist/featurs/login/logic/cubit/login_cubit.dart';
+import 'package:moveassist/featurs/login/logic/login_cubit.dart';
 
 import '../../../core/helpers/spacing.dart';
 import 'widgets/dont_have_account_text.dart';

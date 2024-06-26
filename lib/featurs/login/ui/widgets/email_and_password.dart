@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moveassist/core/helpers/app_regex.dart';
 import 'package:moveassist/core/widgets/buttons/app_text_form_field.dart';
 import 'package:moveassist/core/widgets/password_validations.dart';
-import 'package:moveassist/featurs/login/logic/cubit/login_cubit.dart';
+import 'package:moveassist/featurs/login/logic/login_cubit.dart';
 
 import '../../../../core/helpers/spacing.dart';
 

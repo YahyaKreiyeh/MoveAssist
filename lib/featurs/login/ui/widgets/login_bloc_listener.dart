@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moveassist/core/helpers/extensions.dart';
 import 'package:moveassist/core/helpers/loading_dialog.dart';
+import 'package:moveassist/core/routing/routes.dart';
 import 'package:moveassist/core/utils/constants/styles.dart';
-import 'package:moveassist/featurs/login/logic/cubit/login_cubit.dart';
-import 'package:moveassist/featurs/login/logic/cubit/login_state.dart';
+import 'package:moveassist/featurs/login/logic/login_cubit.dart';
+import 'package:moveassist/featurs/login/logic/login_state.dart';
 
 class LoginBlocListener extends StatelessWidget {
   const LoginBlocListener({super.key});
@@ -19,7 +20,7 @@ class LoginBlocListener extends StatelessWidget {
           },
           success: (loginResponse) {
             context.pop();
-            // context.pushNamed(Routes.homeScreen);
+            context.pushNamed(Routes.houseItemsScreen);
           },
           error: (error) {
             setupErrorState(context, error);
