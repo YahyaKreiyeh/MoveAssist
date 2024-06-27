@@ -69,7 +69,6 @@ class MovingScheduleScreenState extends State<MovingScheduleScreen> {
       message: 'Item deleted',
       context: context,
     );
-    setState(() {});
   }
 
   void _handleCreate() async {

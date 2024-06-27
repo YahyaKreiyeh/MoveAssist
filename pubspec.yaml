@@ -42,7 +42,6 @@ dependencies:
   flutter_dotenv: ^5.1.0
   firebase_storage: ^12.1.0
   firebase_messaging: ^15.0.2
-  flutter_local_notifications: ^17.1.2
   ##### G ######
   get_it: ^7.6.8
   ##### I ######
@@ -60,8 +59,6 @@ dependencies:
   retrofit_generator: ^8.1.0
   ##### T ######
   timezone: ^0.9.3
-  ##### W ######
-  workmanager: ^0.5.2
   tflite_v2: ^1.0.0
 
 dev_dependencies:
