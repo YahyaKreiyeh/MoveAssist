@@ -1,6 +1,5 @@
 class ApiConstants {
   ApiConstants._();
-  static const String apiBaseUrl = "https://tjtoevbzbfyhysdoqmfm.supabase.co/";
 }
 
 class ApiErrors {
