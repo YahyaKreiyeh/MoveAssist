@@ -1,0 +1,5 @@
+0 Bed
+1 Chair
+2 Sofa
+3 Swivelchair
+4 Table

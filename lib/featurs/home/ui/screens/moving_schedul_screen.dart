@@ -2,10 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:moveassist/core/helpers/extensions.dart';
+import 'package:moveassist/core/helpers/loading_dialog.dart';
+import 'package:moveassist/core/helpers/snackbar.dart';
 import 'package:moveassist/core/routing/routes.dart';
-import 'package:moveassist/core/widgets/loading_indicator.dart';
+import 'package:moveassist/core/widgets/buttons/app_elevated_button.dart';
+import 'package:moveassist/core/widgets/buttons/app_text_form_field.dart';
 import 'package:moveassist/featurs/home/data/models/moving_schedule.dart';
 import 'package:moveassist/featurs/home/logic/home_cubit.dart';
 import 'package:moveassist/featurs/home/logic/moving_schedule_cubit.dart';
@@ -32,6 +36,7 @@ class MovingScheduleScreenState extends State<MovingScheduleScreen> {
     );
 
     if (date != null) {
+      if (!mounted) return;
       final time = await showTimePicker(
         context: context,
         initialTime: TimeOfDay.fromDateTime(DateTime.now()),
@@ -60,6 +65,43 @@ class MovingScheduleScreenState extends State<MovingScheduleScreen> {
 
   void _deleteItem(String itemId) {
     context.read<MovingScheduleCubit>().deleteHouseItem(itemId);
+    SnackBarNotifier().success(
+      message: 'Item deleted',
+      context: context,
+    );
+    setState(() {});
+  }
+
+  void _handleCreate() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      final items = context.read<MovingScheduleCubit>().items;
+      if (_selectedDate == null) {
+        SnackBarNotifier().fail(
+          message: 'Please pick a date and time',
+          context: context,
+        );
+      } else if (_selectedDate!.isBefore(DateTime.now())) {
+        SnackBarNotifier().fail(
+          message: 'Selected date/time is in the past',
+          context: context,
+        );
+      } else if (items.isEmpty) {
+        SnackBarNotifier().fail(
+          message: 'Please add at least one item',
+          context: context,
+        );
+      } else {
+        loadingDialog(context);
+        await context.read<MovingScheduleCubit>().addMovingSchedule(
+              _selectedDate!,
+              _notesController.text,
+              items,
+            );
+        if (!mounted) return;
+        context.read<HomeCubit>().fetchMovingSchedules();
+        context.popUntil((route) => route.isFirst);
+      }
+    }
   }
 
   @override
@@ -87,9 +129,9 @@ class MovingScheduleScreenState extends State<MovingScheduleScreen> {
                 trailing: const Icon(Icons.calendar_today),
                 onTap: _pickDateTime,
               ),
-              TextFormField(
+              AppTextFormField(
                 controller: _notesController,
-                decoration: const InputDecoration(labelText: 'Notes'),
+                hintText: 'Notes',
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter notes';
@@ -103,48 +145,49 @@ class MovingScheduleScreenState extends State<MovingScheduleScreen> {
                       previous.runtimeType != current.runtimeType,
                   builder: (context, state) {
                     if (state is Loading) {
-                      return const LoadingIndicator();
+                      return const SizedBox.shrink();
                     }
                     if (state is Success) {
                       final items = state.items ?? [];
-                      return ListView.builder(
-                        itemCount: items.length,
-                        itemBuilder: (context, index) {
-                          final item = items[index];
-                          return Dismissible(
-                            key: Key(item.id),
-                            onDismissed: (direction) {
-                              _deleteItem(item.id);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('${item.name} deleted')),
-                              );
-                            },
-                            background: Container(color: Colors.red),
-                            child: ListTile(
-                              leading: item.imageUrl.isNotEmpty
-                                  ? Image.file(
-                                      File(item.imageUrl),
-                                      width: 50,
-                                      height: 50,
-                                      fit: BoxFit.cover,
-                                    )
-                                  : const Icon(Icons.image),
-                              title: Text('Name: ${item.name}'),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Quantity: ${item.quantity}'),
-                                  Text('Description: ${item.description}'),
-                                ],
+                      if (items.isEmpty) {
+                        return const Center(child: Text('No items added yet'));
+                      } else {
+                        return ListView.builder(
+                          itemCount: items.length,
+                          itemBuilder: (context, index) {
+                            final item = items[index];
+                            return Dismissible(
+                              key: Key(item.id),
+                              onDismissed: (direction) {
+                                _deleteItem(item.id);
+                              },
+                              background: Container(color: Colors.red),
+                              child: ListTile(
+                                leading: item.imageUrl.isNotEmpty
+                                    ? Image.file(
+                                        File(item.imageUrl),
+                                        width: 50.w,
+                                        height: 50.w,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : const Icon(Icons.image),
+                                title: Text('Name: ${item.name}'),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Quantity: ${item.quantity}'),
+                                    Text('Description: ${item.description}'),
+                                  ],
+                                ),
+                                trailing: IconButton(
+                                  icon: const Icon(Icons.edit),
+                                  onPressed: () => _addOrEditItem(item),
+                                ),
                               ),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.edit),
-                                onPressed: () => _addOrEditItem(item),
-                              ),
-                            ),
-                          );
-                        },
-                      );
+                            );
+                          },
+                        );
+                      }
                     } else {
                       return const Center(child: Text('No items added yet'));
                     }
@@ -157,31 +200,9 @@ class MovingScheduleScreenState extends State<MovingScheduleScreen> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ElevatedButton(
-          onPressed: () async {
-            if (_formKey.currentState?.validate() ?? false) {
-              final items = context.read<MovingScheduleCubit>().items;
-              if (_selectedDate == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Please pick a date and time')),
-                );
-              } else if (items.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Please add at least one item')),
-                );
-              } else {
-                await context.read<MovingScheduleCubit>().addMovingSchedule(
-                      _selectedDate!,
-                      _notesController.text,
-                      items,
-                    );
-                if (!context.mounted) return;
-                context.read<HomeCubit>().fetchMovingSchedules();
-                context.pop();
-              }
-            }
-          },
-          child: const Text('Create'),
+        child: AppElevatedButton(
+          onPressed: _handleCreate,
+          text: 'Create',
         ),
       ),
     );

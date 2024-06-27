@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moveassist/core/utils/constants/styles.dart';
-import 'package:moveassist/core/widgets/buttons/app_text_button.dart';
+import 'package:moveassist/core/widgets/buttons/app_elevated_button.dart';
 import 'package:moveassist/featurs/sign_up/ui/widgets/sign_up_bloc_listener.dart';
 import 'package:moveassist/featurs/sign_up/ui/widgets/sign_up_form.dart';
 
@@ -37,12 +37,11 @@ class SignupScreen extends StatelessWidget {
                   children: [
                     const SignupForm(),
                     verticalSpace(40),
-                    AppTextButton(
-                      buttonText: "Create Account",
-                      textStyle: TextStyles.whiteBold16,
+                    AppElevatedButton(
                       onPressed: () {
                         validateThenDoSignup(context);
                       },
+                      text: 'Create Account',
                     ),
                     verticalSpace(30),
                     const AlreadyHaveAccountText(),

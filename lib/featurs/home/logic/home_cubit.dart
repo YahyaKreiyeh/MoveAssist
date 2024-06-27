@@ -16,21 +16,4 @@ class HomeCubit extends Cubit<HomeState> {
           emit(HomeState.error(error: error.apiErrorModel.message ?? '')),
     );
   }
-
-  Future<void> deleteMovingSchedule(String scheduleId) async {
-    final currentState = state;
-    if (currentState is Success) {
-      final result = await _movingScheduleRepo.deleteMovingSchedule(scheduleId);
-      result.when(
-        success: (_) {
-          final updatedSchedules = currentState.schedules
-              .where((schedule) => schedule.id != scheduleId)
-              .toList();
-          emit(HomeState.success(updatedSchedules));
-        },
-        failure: (error) =>
-            emit(HomeState.error(error: error.apiErrorModel.message ?? '')),
-      );
-    }
-  }
 }

@@ -25,29 +25,30 @@ class MoveAssist extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MultiBlocProvider(
-            providers: [
-              BlocProvider(
-                create: (context) => HomeCubit(getIt<MovingScheduleRepo>())
-                  ..fetchMovingSchedules(),
+          providers: [
+            BlocProvider(
+              create: (context) => HomeCubit(getIt<MovingScheduleRepo>())
+                ..fetchMovingSchedules(),
+            ),
+            BlocProvider(
+              create: (context) =>
+                  MovingScheduleCubit(getIt<MovingScheduleRepo>()),
+            ),
+          ],
+          child: MaterialApp(
+            title: 'Move Assist',
+            theme: ThemeData(
+              appBarTheme: const AppBarTheme(
+                color: ColorsManager.scaffoldBackground,
               ),
-              BlocProvider(
-                create: (context) =>
-                    MovingScheduleCubit(getIt<MovingScheduleRepo>()),
-              ),
-            ],
-            child: MaterialApp(
-              title: 'Move Assist',
-              theme: ThemeData(
-                appBarTheme: const AppBarTheme(
-                  color: ColorsManager.scaffoldBackground,
-                ),
-                primaryColor: ColorsManager.primary,
-                scaffoldBackgroundColor: ColorsManager.scaffoldBackground,
-              ),
-              debugShowCheckedModeBanner: false,
-              initialRoute: getInitialRoute(),
-              onGenerateRoute: appRouter.generateRoute,
-            ));
+              primaryColor: ColorsManager.primary,
+              scaffoldBackgroundColor: ColorsManager.scaffoldBackground,
+            ),
+            debugShowCheckedModeBanner: false,
+            initialRoute: getInitialRoute(),
+            onGenerateRoute: appRouter.generateRoute,
+          ),
+        );
       },
     );
   }

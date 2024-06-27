@@ -4,8 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:moveassist/core/helpers/extensions.dart';
+import 'package:moveassist/core/helpers/spacing.dart';
+import 'package:moveassist/core/widgets/buttons/app_elevated_button.dart';
+import 'package:moveassist/core/widgets/buttons/app_text_form_field.dart';
 import 'package:moveassist/featurs/home/data/models/moving_schedule.dart';
 import 'package:moveassist/featurs/home/logic/moving_schedule_cubit.dart';
+import 'package:tflite_v2/tflite_v2.dart';
 
 class AddHouseItemScreen extends StatefulWidget {
   final HouseItem? item;
@@ -21,11 +25,18 @@ class AddHouseItemScreenState extends State<AddHouseItemScreen> {
   final _nameController = TextEditingController();
   final _quantityController = TextEditingController();
   final _descriptionController = TextEditingController();
+  File? file;
   XFile? _image;
+  var _recognitions;
+  var v = "";
 
   @override
   void initState() {
     super.initState();
+    loadmodel().then((value) {
+      setState(() {});
+    });
+
     if (widget.item != null) {
       _nameController.text = widget.item!.name;
       _quantityController.text = widget.item!.quantity.toString();
@@ -34,11 +45,42 @@ class AddHouseItemScreenState extends State<AddHouseItemScreen> {
     }
   }
 
+  loadmodel() async {
+    await Tflite.loadModel(
+      model: "assets/models/model_unquant.tflite",
+      labels: "assets/models/labels.txt",
+    );
+  }
+
   Future<void> _pickImage(ImageSource source) async {
-    final pickedFile = await ImagePicker().pickImage(source: source);
+    try {
+      final pickedFile = await ImagePicker().pickImage(source: source);
+      setState(
+        () {
+          _image = pickedFile;
+          file = File(pickedFile!.path);
+        },
+      );
+      detectimage(file!);
+    } catch (e) {
+      print('Error picking image: $e');
+    }
+  }
+
+  Future detectimage(File image) async {
+    var recognitions = await Tflite.runModelOnImage(
+      path: image.path,
+      numResults: 6,
+      threshold: 0.05,
+      imageMean: 127.5,
+      imageStd: 127.5,
+    );
     setState(() {
-      _image = pickedFile;
+      _recognitions = recognitions;
+      v = recognitions.toString();
+      _nameController.text = _recognitions[0]['label'].toString().substring(2);
     });
+    debugPrint(_recognitions);
   }
 
   @override
@@ -54,9 +96,9 @@ class AddHouseItemScreenState extends State<AddHouseItemScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                TextFormField(
+                AppTextFormField(
                   controller: _nameController,
-                  decoration: const InputDecoration(labelText: 'Item Name'),
+                  hintText: 'Item Name',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter item name';
@@ -64,21 +106,26 @@ class AddHouseItemScreenState extends State<AddHouseItemScreen> {
                     return null;
                   },
                 ),
-                TextFormField(
+                verticalSpace(16),
+                AppTextFormField(
                   controller: _quantityController,
-                  decoration: const InputDecoration(labelText: 'Item Quantity'),
+                  hintText: 'Item Quantity',
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter item quantity';
                     }
+                    final quantity = int.tryParse(value);
+                    if (quantity == null || quantity < 1) {
+                      return 'Please enter a quantity of 1 or more';
+                    }
                     return null;
                   },
                 ),
-                TextFormField(
+                verticalSpace(16),
+                AppTextFormField(
                   controller: _descriptionController,
-                  decoration:
-                      const InputDecoration(labelText: 'Item Description'),
+                  hintText: 'Item Description',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter item description';
@@ -86,21 +133,21 @@ class AddHouseItemScreenState extends State<AddHouseItemScreen> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                verticalSpace(16),
                 _image == null
                     ? const Text('No image selected.')
                     : Image.file(File(_image!.path)),
-                const SizedBox(height: 16),
-                ElevatedButton(
+                verticalSpace(16),
+                AppElevatedButton(
                   onPressed: () => _pickImage(ImageSource.camera),
-                  child: const Text('Pick Image from Camera'),
+                  text: 'Pick Image from Camera',
                 ),
-                ElevatedButton(
+                AppElevatedButton(
                   onPressed: () => _pickImage(ImageSource.gallery),
-                  child: const Text('Pick Image from Gallery'),
+                  text: 'Pick Image from Gallery',
                 ),
-                const SizedBox(height: 16),
-                ElevatedButton(
+                verticalSpace(16),
+                AppElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState?.validate() ?? false) {
                       final item = HouseItem(
@@ -117,8 +164,8 @@ class AddHouseItemScreenState extends State<AddHouseItemScreen> {
                       context.pop();
                     }
                   },
-                  child: const Text('Save Item'),
-                ),
+                  text: 'Add Item',
+                )
               ],
             ),
           ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:moveassist/core/utils/constants/styles.dart';
-import 'package:moveassist/core/widgets/buttons/app_text_button.dart';
+import 'package:moveassist/core/widgets/buttons/app_elevated_button.dart';
 import 'package:moveassist/featurs/login/logic/login_cubit.dart';
 
 import '../../../core/helpers/spacing.dart';
@@ -36,21 +36,12 @@ class LoginScreen extends StatelessWidget {
                 Column(
                   children: [
                     const EmailAndPassword(),
-                    // verticalSpace(24),
-                    // Align(
-                    //   alignment: AlignmentDirectional.centerEnd,
-                    //   child: Text(
-                    //     'Forgot Password?',
-                    //     style: TextStyles.whiteBold16,
-                    //   ),
-                    // ),
                     verticalSpace(40),
-                    AppTextButton(
-                      buttonText: "Login",
-                      textStyle: TextStyles.whiteBold16,
+                    AppElevatedButton(
                       onPressed: () {
                         validateThenDoLogin(context);
                       },
+                      text: 'Login',
                     ),
                     verticalSpace(60),
                     const DontHaveAccountText(),

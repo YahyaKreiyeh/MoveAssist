@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:moveassist/core/networking/api_error_handler.dart';
 
 class FirebaseService {
@@ -19,7 +20,7 @@ class FirebaseService {
     } on FirebaseAuthException catch (e) {
       _handleAuthException(e);
     } catch (e) {
-      print('Unknown error: $e');
+      debugPrint('Unknown error: $e');
     }
   }
 
@@ -41,7 +42,7 @@ class FirebaseService {
     } on FirebaseAuthException catch (e) {
       _handleAuthException(e);
     } catch (e) {
-      print('Unknown error: $e');
+      debugPrint('Unknown error: $e');
     }
   }
 
@@ -49,12 +50,12 @@ class FirebaseService {
     try {
       await _firebaseAuth.signOut();
     } catch (e) {
-      print('Error signing out: $e');
+      debugPrint('Error signing out: $e');
     }
   }
 
   void _handleAuthException(FirebaseAuthException e) {
     final apiErrorModel = ErrorHandler.handle(e).apiErrorModel;
-    print('Error: ${apiErrorModel.message}');
+    debugPrint('Error: ${apiErrorModel.message}');
   }
 }

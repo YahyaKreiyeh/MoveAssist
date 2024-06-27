@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:moveassist/core/networking/api_error_handler.dart';
 import 'package:moveassist/core/networking/api_result.dart';
 import 'package:moveassist/featurs/home/data/models/moving_schedule.dart';
@@ -25,7 +26,6 @@ class MovingScheduleRepo {
         );
       }
 
-      // Upload image to Firebase Storage
       File imageFile = File(item.imageUrl);
       String fileName =
           '${user.uid}/${DateTime.now().millisecondsSinceEpoch}.jpg';
@@ -35,7 +35,6 @@ class MovingScheduleRepo {
       TaskSnapshot taskSnapshot = await uploadTask;
       String imageUrl = await taskSnapshot.ref.getDownloadURL();
 
-      // Add or update item in Firestore with the image URL
       final docRef = _firestore
           .collection('users')
           .doc(user.uid)
@@ -54,7 +53,7 @@ class MovingScheduleRepo {
 
       return ApiResult.success(houseItem);
     } catch (error) {
-      print('Error uploading house item: $error');
+      debugPrint('Error uploading house item: $error');
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
@@ -73,23 +72,21 @@ class MovingScheduleRepo {
         );
       }
 
-      // Upload each house item and collect the results
       List<HouseItem> uploadedItems = [];
       for (HouseItem item in items) {
         final result = await _uploadHouseItem(item);
         result.when(
           success: (uploadedItem) {
             uploadedItems.add(uploadedItem);
-            print('Successfully uploaded item: ${uploadedItem.id}');
+            debugPrint('Successfully uploaded item: ${uploadedItem.id}');
           },
           failure: (error) {
-            print('Failed to upload item: $error');
+            debugPrint('Failed to upload item: $error');
             throw Exception(error.apiErrorModel.message);
           },
         );
       }
 
-      // Create moving schedule document
       final docRef = _firestore
           .collection('users')
           .doc(user.uid)
@@ -102,18 +99,18 @@ class MovingScheduleRepo {
         items: uploadedItems,
       );
 
-      print(
+      debugPrint(
           'MovingSchedule toJson: ${movingSchedule.toJson()['items'][0].toString()}');
       for (var item in uploadedItems) {
-        print('HouseItem toJson: ${item.toJson()}');
+        debugPrint('HouseItem toJson: ${item.toJson()}');
       }
 
       await docRef.set(movingSchedule.toJson());
-      print('Successfully created moving schedule: ${docRef.id}');
+      debugPrint('Successfully created moving schedule: ${docRef.id}');
 
       return ApiResult.success(movingSchedule);
     } catch (error) {
-      print('Error adding moving schedule: $error');
+      debugPrint('Error adding moving schedule: $error');
       return ApiResult.failure(ErrorHandler.handle(error));
     }
   }
